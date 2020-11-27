@@ -1,8 +1,15 @@
 package br.com.matheusCalaca.conta.model
 
+import javax.persistence.*
+import javax.validation.constraints.NotBlank
+
+@Entity
 data class Category(
 
+        @Id @GeneratedValue(strategy = GenerationType.AUTO)
         val id: Long,
 
-        val name: String
+        @Column(unique = true)
+        @get: NotBlank
+        var name: String
 )
