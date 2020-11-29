@@ -11,5 +11,7 @@ interface CategoryService {
 
     fun findAllCategory(): Iterable<Category>
 
-    fun updateCatgory(id: Long, name: String): Category
+    fun updateCategory(id: Long, name: String): Category
+
+    fun deleteCategory(id: Long)
 }

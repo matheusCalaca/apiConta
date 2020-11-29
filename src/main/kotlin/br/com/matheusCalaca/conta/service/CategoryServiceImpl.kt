@@ -29,9 +29,13 @@ class CategoryServiceImpl : CategoryService{
         return repository.findAll();
     }
 
-    override fun updateCatgory(id: Long, name: String): Category {
+    override fun updateCategory(id: Long, name: String): Category {
         val category = findCategoryByID(id);
         category.name =  name;
         return repository.save(category);
+    }
+
+    override fun deleteCategory(id: Long){
+        repository.deleteById(id)
     }
 }

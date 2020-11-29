@@ -31,7 +31,14 @@ class CategoryResourse {
 
     @PutMapping("/category/{id}")
     fun putCategory(@PathVariable("id") id: Long, @RequestBody dto: CategoryDto): Category {
-        return categoryService.updateCatgory(id, dto.name )
+        return categoryService.updateCategory(id, dto.name )
+    }
+
+    @DeleteMapping("/category/{id}")
+    fun deleteCategory(@PathVariable("id") id: Long): String {
+        categoryService.deleteCategory(id)
+
+        return "Deletado com sucesso!"
     }
 
 
