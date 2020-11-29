@@ -1,4 +1,4 @@
-package br.com.matheusCalaca.conta
+package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.Category
 import br.com.matheusCalaca.conta.model.DTO.CategoryDto
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class CategoryResourse {
+class CategoryResource {
 
     @Autowired
     lateinit var categoryService: CategoryService
