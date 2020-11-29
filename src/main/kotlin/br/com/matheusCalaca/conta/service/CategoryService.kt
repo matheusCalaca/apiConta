@@ -10,4 +10,6 @@ interface CategoryService {
     fun findCategory(name: String): Category
 
     fun findAllCategory(): Iterable<Category>
+
+    fun updateCatgory(id: Long, name: String): Category
 }
