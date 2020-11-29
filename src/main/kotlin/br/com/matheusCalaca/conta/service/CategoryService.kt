@@ -6,4 +6,8 @@ import org.springframework.stereotype.Component
 @Component
 interface CategoryService {
     fun save(category: Category): Category
+
+    fun findCategory(name: String): Category
+
+    fun findAllCategory(): Iterable<Category>
 }

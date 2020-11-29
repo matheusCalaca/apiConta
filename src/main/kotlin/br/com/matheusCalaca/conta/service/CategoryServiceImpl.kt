@@ -17,4 +17,12 @@ class CategoryServiceImpl : CategoryService{
     override fun save(category: Category): Category {
         return repository.save(category)
     }
+
+    override fun findCategory(name: String): Category {
+        return repository.findByName(name);
+    }
+
+    override fun findAllCategory(): Iterable<Category> {
+        return repository.findAll();
+    }
 }
