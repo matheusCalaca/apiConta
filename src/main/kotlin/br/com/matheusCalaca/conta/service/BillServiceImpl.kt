@@ -19,4 +19,14 @@ class BillServiceImpl : BillService {
         return repository.save(bill)
     }
 
+    fun findByid(id: Long): Bill{
+        return repository.findById(id).get()
+    }
+
+    override fun update(id: Long, bill: Bill): Bill {
+        val billReturn: Bill = findByid(id)
+        bill.id = billReturn.id
+        return repository.save(bill)
+    }
+
 }

@@ -10,7 +10,7 @@ data class Bill(
 
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Long,
+        var id: Long,
 
         var maturityDate: Date,
 
