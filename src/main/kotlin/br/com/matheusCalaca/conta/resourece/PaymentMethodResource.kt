@@ -22,4 +22,9 @@ class PaymentMethodResource {
     fun putPaymentMethod(@PathVariable("id") id: Long, @RequestBody paymentMethod: PaymentMethod): PaymentMethod {
         return service.update(id, paymentMethod)
     }
+
+    @GetMapping("/paymentMethod/all")
+    fun getPaymentMethod(): Iterable<PaymentMethod> {
+        return service.findAll()
+    }
 }

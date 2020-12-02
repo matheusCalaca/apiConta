@@ -25,4 +25,8 @@ class PaymentMethodServiceImpl : PaymentMethodService {
         paymentMethod.id = paymentMethodReturn.id
         return repository.save(paymentMethod)
     }
+
+    override fun findAll(): Iterable<PaymentMethod> {
+        return repository.findAll()
+    }
 }
