@@ -5,7 +5,7 @@ import java.math.BigDecimal
 import java.util.*
 import javax.persistence.*
 
-@Entity
+@Entity(name = "bill")
 data class Bill(
 
         @Id

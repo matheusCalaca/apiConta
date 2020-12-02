@@ -33,4 +33,8 @@ class BillServiceImpl : BillService {
         repository.deleteById(id)
     }
 
+    override fun getBills(page: Long, size: Long): List<Bill> {
+        return repository.getBills(page, size)
+    }
+
 }

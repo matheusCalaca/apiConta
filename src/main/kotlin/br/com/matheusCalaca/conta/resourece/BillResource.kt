@@ -18,6 +18,11 @@ class BillResource {
         return service.save(bill)
     }
 
+    @GetMapping("/bill")
+    fun getBill(@RequestParam("page") page: Long, @RequestParam("size") size: Long): List<Bill> {
+        return service.getBills(page, size)
+    }
+
     @PutMapping("/bill/{id}")
     fun putBill(@PathVariable("id") id: Long, @RequestBody bill: Bill): Bill {
         return service.update(id, bill)

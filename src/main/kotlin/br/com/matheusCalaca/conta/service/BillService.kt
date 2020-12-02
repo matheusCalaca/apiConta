@@ -11,4 +11,6 @@ interface BillService {
     fun update(id: Long, bill: Bill): Bill
 
     fun delete(id: Long)
+
+    fun getBills(page: Long, size: Long): List<Bill>
 }
