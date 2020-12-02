@@ -2,10 +2,10 @@ package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.PaymentMethod
 import br.com.matheusCalaca.conta.service.PaymentMethodService
+import org.apache.juli.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.websocket.server.PathParam
 
 @RestController
 class PaymentMethodResource {
@@ -16,5 +16,10 @@ class PaymentMethodResource {
     @PostMapping("/paymentMethod")
     fun postPaymentMethod(@RequestBody paymentMethod: PaymentMethod): PaymentMethod {
         return service.save(paymentMethod)
+    }
+
+    @PutMapping("/paymentMethod/{id}")
+    fun putPaymentMethod(@PathVariable("id") id: Long, @RequestBody paymentMethod: PaymentMethod): PaymentMethod {
+        return service.update(id, paymentMethod)
     }
 }

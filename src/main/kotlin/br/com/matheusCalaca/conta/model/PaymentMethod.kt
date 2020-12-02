@@ -6,7 +6,7 @@ import javax.persistence.*
 data class PaymentMethod(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    var id: Long,
     @Column(name = "institution_name")
     var institutionName: String,
     @Column(name = "payment_method")
