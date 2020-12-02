@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank
 @Entity
 data class Category(
 
-        @Id @GeneratedValue(strategy = GenerationType.AUTO)
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long,
 
         @Column(unique = true)

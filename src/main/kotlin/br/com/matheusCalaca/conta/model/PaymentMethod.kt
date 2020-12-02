@@ -5,7 +5,7 @@ import javax.persistence.*
 @Entity
 data class PaymentMethod(
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
     @Column(name = "institution_name")
     var institutionName: String,
