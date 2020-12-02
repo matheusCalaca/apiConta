@@ -9,4 +9,6 @@ interface BillService {
     fun save(bill: Bill): Bill
 
     fun update(id: Long, bill: Bill): Bill
+
+    fun delete(id: Long)
 }

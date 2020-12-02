@@ -29,4 +29,8 @@ class BillServiceImpl : BillService {
         return repository.save(bill)
     }
 
+    override fun delete(id: Long) {
+        repository.deleteById(id)
+    }
+
 }
