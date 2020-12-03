@@ -29,4 +29,8 @@ class PaymentMethodServiceImpl : PaymentMethodService {
     override fun findAll(): Iterable<PaymentMethod> {
         return repository.findAll()
     }
+
+    override fun delete(id: Long) {
+        repository.deleteById(id)
+    }
 }

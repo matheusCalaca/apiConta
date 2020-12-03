@@ -27,4 +27,10 @@ class PaymentMethodResource {
     fun getPaymentMethod(): Iterable<PaymentMethod> {
         return service.findAll()
     }
+
+    @DeleteMapping("/paymentMethod/{id}")
+    fun putPaymentMethod(@PathVariable("id") id: Long): String {
+        service.delete(id)
+        return "Deletado com sucesso"
+    }
 }

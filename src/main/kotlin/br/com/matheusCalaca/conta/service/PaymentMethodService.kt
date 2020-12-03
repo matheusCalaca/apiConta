@@ -8,4 +8,5 @@ interface PaymentMethodService {
     fun save(paymentMethod: PaymentMethod): PaymentMethod
     fun update(id: Long, paymentMethod: PaymentMethod): PaymentMethod
     fun findAll(): Iterable<PaymentMethod>
+    fun delete(id: Long)
 }
