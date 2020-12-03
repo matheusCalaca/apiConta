@@ -15,4 +15,8 @@ class PaymentServiceImpl: PaymentService {
     override fun save(payment: Payment): Payment {
         return repository.save(payment)
     }
+
+    override fun delete(id: Long) {
+        repository.deleteById(id)
+    }
 }

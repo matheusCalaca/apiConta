@@ -15,9 +15,15 @@ class PaymentResource {
     @Autowired
     lateinit var service: PaymentService
 
-    @PostMapping
+    @PostMapping("/payment")
     fun postPayment(@RequestBody payment: Payment): Payment{
         return service.save(payment)
+    }
+
+    @DeleteMapping("/payment/{id}")
+    fun deltePayment(@PathVariable("id") id: Long): String{
+        service.delete(id)
+        return "Deletado com sucesso"
     }
 
 
