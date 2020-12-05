@@ -7,5 +7,6 @@ import org.springframework.stereotype.Component
 interface PaymentService {
     fun save(payment: Payment): Payment
     fun delete(id: Long)
+    fun hasPaymentMethodInPayment(idPaymentMethod: Long): Boolean
 
 }

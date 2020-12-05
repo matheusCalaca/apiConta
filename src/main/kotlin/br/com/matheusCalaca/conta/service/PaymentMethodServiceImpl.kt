@@ -2,8 +2,8 @@ package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.PaymentMethod
 import br.com.matheusCalaca.conta.repository.PaymentMethodRepository
-import org.apache.juli.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,6 +11,10 @@ class PaymentMethodServiceImpl : PaymentMethodService {
 
     @Autowired
     lateinit var repository: PaymentMethodRepository
+
+    @Autowired
+    @Qualifier("paymentService")
+    lateinit var servicePayment: PaymentService
 
     override fun save(paymentMethod: PaymentMethod): PaymentMethod {
         return repository.save(paymentMethod)
@@ -31,6 +35,9 @@ class PaymentMethodServiceImpl : PaymentMethodService {
     }
 
     override fun delete(id: Long) {
-        repository.deleteById(id)
+        val hasPaymentMethodInPayment = servicePayment.hasPaymentMethodInPayment(id)
+        if(hasPaymentMethodInPayment == false){
+            repository.deleteById(id)
+        }
     }
 }
