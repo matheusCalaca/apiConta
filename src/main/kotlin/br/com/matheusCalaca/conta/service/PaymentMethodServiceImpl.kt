@@ -5,6 +5,7 @@ import br.com.matheusCalaca.conta.repository.PaymentMethodRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 
 @Service
 class PaymentMethodServiceImpl : PaymentMethodService {
@@ -36,8 +37,10 @@ class PaymentMethodServiceImpl : PaymentMethodService {
 
     override fun delete(id: Long) {
         val hasPaymentMethodInPayment = servicePayment.hasPaymentMethodInPayment(id)
-        if(hasPaymentMethodInPayment == false){
-            repository.deleteById(id)
+        if(hasPaymentMethodInPayment ){
+            throw IllegalArgumentException("Não pode ser excluido, ele esta ativo em Payment")
         }
+        repository.deleteById(id)
+
     }
 }
