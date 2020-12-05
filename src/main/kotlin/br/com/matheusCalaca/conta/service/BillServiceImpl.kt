@@ -37,4 +37,10 @@ class BillServiceImpl : BillService {
         return repository.getBills(page, size)
     }
 
+    override fun hasCategoryByBill(idCategory: Long): Boolean {
+        val categoryCont = repository.findHasPayment(idCategory)
+        return categoryCont > 0;
+
+    }
+
 }

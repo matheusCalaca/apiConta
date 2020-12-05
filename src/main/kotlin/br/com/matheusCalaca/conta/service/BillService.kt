@@ -13,4 +13,6 @@ interface BillService {
     fun delete(id: Long)
 
     fun getBills(page: Long, size: Long): List<Bill>
+
+    fun hasCategoryByBill(idCategory: Long): Boolean
 }

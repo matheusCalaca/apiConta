@@ -9,4 +9,7 @@ interface BillRepository : CrudRepository<Bill, Long> {
     @Query("select * from bill  limit ?2 offset ?1 ", nativeQuery = true)
     fun getBills(page: Long, size: Long): List<Bill>
 
+    @Query("select count (b.id) from bill b  where b.category.id = ?1 ")
+    fun findHasPayment(idPayment: Long): Long
+
 }

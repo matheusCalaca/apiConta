@@ -5,10 +5,15 @@ import br.com.matheusCalaca.conta.repository.CategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.lang.IllegalArgumentException
 
 
 @Service
 class CategoryServiceImpl : CategoryService{
+
+    @Autowired
+    lateinit var servicesBill: BillService
+
 
     @Autowired
     lateinit var repository: CategoryRepository
@@ -36,6 +41,12 @@ class CategoryServiceImpl : CategoryService{
     }
 
     override fun deleteCategory(id: Long){
-        repository.deleteById(id)
+        // TODO: verificar se existe oagamento em conta
+        val hasCategoryInBill: Boolean = servicesBill.hasCategoryByBill(id)
+        if(hasCategoryInBill) {
+            throw  IllegalArgumentException("categoria não pode ser excluido")
+        }else{
+            repository.deleteById(id)
+        }
     }
 }

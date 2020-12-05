@@ -3,7 +3,6 @@ package br.com.matheusCalaca.conta.resourece
 import br.com.matheusCalaca.conta.model.Bill
 import br.com.matheusCalaca.conta.service.BillService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.web.bind.annotation.*
 
 @RestController
