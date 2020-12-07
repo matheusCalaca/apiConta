@@ -41,7 +41,13 @@ class PaymentServiceImpl : PaymentService {
         val payment: Payment = findById(id)
         serviceBill.changeSatusBill(payment.bill.id, EnumBillStatus.OPEN)
 
-        repository.deleteById(id)
+        disablePayment(payment)
+    }
+
+
+    private fun disablePayment(payment: Payment) {
+        payment.status = false
+        repository.save(payment)
     }
 
     private fun findById(id: Long): Payment {
