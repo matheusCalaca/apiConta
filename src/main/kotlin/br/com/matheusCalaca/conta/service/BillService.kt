@@ -15,4 +15,6 @@ interface BillService {
     fun getBills(page: Long, size: Long): List<Bill>
 
     fun hasCategoryByBill(idCategory: Long): Boolean
+
+    fun isBillWasPaid(billId: Long): Boolean
 }

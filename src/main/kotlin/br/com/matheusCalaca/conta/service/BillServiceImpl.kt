@@ -1,14 +1,17 @@
 package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.Bill
+import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 
 @Service
 @Transactional
+@Qualifier("billService")
 class BillServiceImpl : BillService {
 
     @Autowired
@@ -19,7 +22,7 @@ class BillServiceImpl : BillService {
         return repository.save(bill)
     }
 
-    fun findByid(id: Long): Bill{
+    fun findByid(id: Long): Bill {
         return repository.findById(id).get()
     }
 
@@ -41,6 +44,16 @@ class BillServiceImpl : BillService {
         val categoryCont = repository.findHasPayment(idCategory)
         return categoryCont > 0;
 
+    }
+
+    override fun isBillWasPaid(billId: Long): Boolean {
+        val bill = findByid(billId)
+        val isPayment = bill.status == EnumBillStatus.PAYMENT
+        if (isPayment) {
+            return true
+        }
+
+        return false
     }
 
 }

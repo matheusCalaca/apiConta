@@ -9,12 +9,22 @@ import org.springframework.stereotype.Service
 
 @Service
 @Qualifier("paymentService")
-class PaymentServiceImpl: PaymentService {
+class PaymentServiceImpl : PaymentService {
 
     @Autowired
     lateinit var repository: PaymentRepository
 
+
+    @Autowired
+    @Qualifier("billService")
+    lateinit var serviceBill: BillService
+
     override fun save(payment: Payment): Payment {
+        val isBillWasPaid: Boolean = serviceBill.isBillWasPaid(payment.bill.id)
+        if (isBillWasPaid) {
+            throw IllegalArgumentException("A conta ja Foi Paga")
+        }
+
         return repository.save(payment)
     }
 
@@ -23,7 +33,7 @@ class PaymentServiceImpl: PaymentService {
     }
 
     override fun hasPaymentMethodInPayment(idPaymentMethod: Long): Boolean {
-        val countPayment:Long  = repository.countPaymentMethod(idPaymentMethod)
+        val countPayment: Long = repository.countPaymentMethod(idPaymentMethod)
         return countPayment > 0
     }
 }

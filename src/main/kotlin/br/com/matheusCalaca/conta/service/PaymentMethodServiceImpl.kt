@@ -37,7 +37,7 @@ class PaymentMethodServiceImpl : PaymentMethodService {
 
     override fun delete(id: Long) {
         val hasPaymentMethodInPayment = servicePayment.hasPaymentMethodInPayment(id)
-        if(hasPaymentMethodInPayment ){
+        if(hasPaymentMethodInPayment){
             throw IllegalArgumentException("Não pode ser excluido, ele esta ativo em Payment")
         }
         repository.deleteById(id)
