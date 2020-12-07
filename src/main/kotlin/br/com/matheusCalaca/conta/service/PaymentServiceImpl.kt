@@ -1,6 +1,7 @@
 package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.Payment
+import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.PaymentRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -20,12 +21,19 @@ class PaymentServiceImpl : PaymentService {
     lateinit var serviceBill: BillService
 
     override fun save(payment: Payment): Payment {
+
+        valied(payment)
+
+        serviceBill.changeSatusBill(payment.bill.id, EnumBillStatus.PAYMENT)
+
+        return repository.save(payment)
+    }
+
+    private fun valied(payment: Payment) {
         val isBillWasPaid: Boolean = serviceBill.isBillWasPaid(payment.bill.id)
         if (isBillWasPaid) {
             throw IllegalArgumentException("A conta ja Foi Paga")
         }
-
-        return repository.save(payment)
     }
 
     override fun delete(id: Long) {

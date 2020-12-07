@@ -56,4 +56,16 @@ class BillServiceImpl : BillService {
         return false
     }
 
+    override fun changeSatusBill(id: Long, billStatus: EnumBillStatus): Bill {
+        val bill = setNewStatusBill(id, billStatus)
+        return update(id, bill)
+    }
+
+
+    private fun setNewStatusBill(id: Long, billStatus: EnumBillStatus): Bill {
+        val bill = findByid(id)
+        bill.status = billStatus
+        return bill
+    }
+
 }
