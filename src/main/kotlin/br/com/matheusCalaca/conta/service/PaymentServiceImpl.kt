@@ -58,4 +58,12 @@ class PaymentServiceImpl : PaymentService {
         val countPayment: Long = repository.countPaymentMethod(idPaymentMethod)
         return countPayment > 0
     }
+
+    override fun hasBillPaymentActive(idBill: Long): Boolean {
+        val payments: List<Payment> = repository.findPaymentByBill(idBill)
+        if(payments.isNotEmpty()){
+            return true
+        }
+        return false
+    }
 }

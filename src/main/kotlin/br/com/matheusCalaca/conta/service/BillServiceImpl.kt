@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.lang.IllegalArgumentException
 
 
 @Service
@@ -16,6 +17,10 @@ class BillServiceImpl : BillService {
 
     @Autowired
     lateinit var repository: BillRepository
+
+    @Autowired
+    @Qualifier("paymentService")
+    lateinit var servicePayment: PaymentService
 
 
     override fun save(bill: Bill): Bill {
@@ -33,6 +38,12 @@ class BillServiceImpl : BillService {
     }
 
     override fun delete(id: Long) {
+        val hasBillPaymentActive: Boolean = servicePayment.hasBillPaymentActive(id)
+
+        if(hasBillPaymentActive){
+            throw IllegalArgumentException("Não pode deletar conta com pagamento ativo!")
+        }
+
         repository.deleteById(id)
     }
 
