@@ -22,14 +22,14 @@ class PaymentServiceImpl : PaymentService {
 
     override fun save(payment: Payment): Payment {
 
-        valied(payment)
+        valid(payment)
 
         serviceBill.changeSatusBill(payment.bill.id, EnumBillStatus.PAYMENT)
 
         return repository.save(payment)
     }
 
-    private fun valied(payment: Payment) {
+    private fun valid(payment: Payment) {
         val isBillWasPaid: Boolean = serviceBill.isBillWasPaid(payment.bill.id)
         if (isBillWasPaid) {
             throw IllegalArgumentException("A conta ja Foi Paga")
@@ -37,7 +37,15 @@ class PaymentServiceImpl : PaymentService {
     }
 
     override fun delete(id: Long) {
+
+        val payment: Payment = findById(id)
+        serviceBill.changeSatusBill(payment.bill.id, EnumBillStatus.OPEN)
+
         repository.deleteById(id)
+    }
+
+    private fun findById(id: Long): Payment {
+        return repository.findById(id).get()
     }
 
     override fun hasPaymentMethodInPayment(idPaymentMethod: Long): Boolean {
