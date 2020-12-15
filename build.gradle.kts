@@ -30,6 +30,9 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("mysql:mysql-connector-java")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.apache.kafka:kafka-streams")
+	implementation("org.springframework.kafka:spring-kafka")
+	testImplementation("org.springframework.kafka:spring-kafka-test")
 }
 
 tasks.withType<Test> {
