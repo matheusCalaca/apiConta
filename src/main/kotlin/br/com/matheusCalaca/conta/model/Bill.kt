@@ -12,7 +12,7 @@ data class Bill(
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long,
 
-        var owner: String,
+        var ownerIdentification: String,
 
         var maturityDate: Date,
 
