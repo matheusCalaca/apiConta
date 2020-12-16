@@ -14,7 +14,7 @@ class BillResource {
 
     @PostMapping("/bill")
     fun postBill(@RequestBody bill: Bill): Bill {
-        return service.save(bill)
+        return service.creatBill(bill)
     }
 
     @GetMapping("/bill")
