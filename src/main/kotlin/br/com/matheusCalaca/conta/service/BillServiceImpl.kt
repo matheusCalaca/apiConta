@@ -1,7 +1,6 @@
 package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.Bill
-import br.com.matheusCalaca.conta.model.DTO.HasClientDto
 import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
 import br.com.matheusCalaca.conta.util.UtilRest
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 
 @Service
@@ -28,21 +26,21 @@ class BillServiceImpl : BillService {
     @Qualifier("paymentService")
     lateinit var servicePayment: PaymentService
 
-    @Value("\${kafka.host}")
+    @Value("\${userapi.host}")
     private val host: String? = null
 
 
     override fun creatBill(bill: Bill): Bill {
-        postVerifyOwnerExist(bill.ownerIdentification)
+        verifyOwnerExist(bill.ownerIdentification)
         return save(bill)
     }
 
-    private fun postVerifyOwnerExist(ownerIdentification: String) {
-        val topic = "has-client"
-        val uri: String = host + "/producer/" + topic;
-        val clientDto = HasClientDto(ownerIdentification)
+    private fun verifyOwnerExist(ownerIdentification: String) {
+        val uri: String = host + "/user";
 
-        val teste = utilRest.post(uri, clientDto.toString(), String::class.java);
+        val queryParameter = mapOf("cpf" to ownerIdentification)
+
+        val teste = utilRest.get(uri, queryParameter, String::class.java);
         println(teste)
     }
 
