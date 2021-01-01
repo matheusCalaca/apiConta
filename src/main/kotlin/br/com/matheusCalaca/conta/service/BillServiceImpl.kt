@@ -3,12 +3,9 @@ package br.com.matheusCalaca.conta.service
 import br.com.matheusCalaca.conta.model.Bill
 import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
-import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.userAPI.service.UserService
-import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,7 +28,7 @@ class BillServiceImpl : BillService {
 
     override fun creatBill(bill: Bill): Bill {
         val hasOwner = userService.verifyHasOwner(bill.ownerIdentification)
-        if (hasOwner == false){
+        if (hasOwner == false) {
             throw java.lang.IllegalArgumentException("Cliente não localizado para registrar a conta")
         }
         return save(bill)

@@ -1,7 +1,5 @@
 package br.com.matheusCalaca.conta.util
 
-import br.com.matheusCalaca.conta.userAPI.model.LoginDto
-import br.com.matheusCalaca.conta.userAPI.model.TokenDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -12,21 +10,13 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 
 
-
-
 @Service
 class UtilRest<T> {
 
 
-    @Value("\${userapi.user}")
-    private val user: String = ""
+    fun post(uri: String, body: String, responseType: Class<T>): T? {
 
-    @Value("\${userapi.password}")
-    private val senha: String = ""
-
-    fun post(uri: String, body: String, responseType: Class<TokenDto>): TokenDto? {
-
-        val headers = genericHeaders()
+        val headers = genericHeaders(null)
 
         val entity = HttpEntity<String>(body, headers)
 
@@ -37,20 +27,21 @@ class UtilRest<T> {
         return response.body
     }
 
-    fun get(uri: String, queryMap: Map<String, String>, responseType: Class<T>): T? {
-
-        val headers = genericHeaders()
-
-
-        val tokenDTO = post(uri + "/login", LoginDto(user, senha).toString(), TokenDto::class.java)
-        headers.set("Authorization", "Bearer ${tokenDTO?.token}")
-
-        val builder = UriComponentsBuilder.fromHttpUrl(uri)
-        for ((key, value) in queryMap) {
-            builder.queryParam(key, value)
-        }
+    fun get(uri: String, queryMap: Map<String, String>, headersMap: Map<String, String>, responseType: Class<T>): T? {
+        val headers = genericHeaders(headersMap)
 
         val entity = HttpEntity<String>(headers)
+
+        return get(uri, queryMap, entity, responseType)
+    }
+
+    private fun get(
+        uri: String,
+        queryMap: Map<String, String>,
+        entity: HttpEntity<String>,
+        responseType: Class<T>
+    ): T? {
+        val builder = builderQueryParameter(uri, queryMap)
 
         val rest = RestTemplate()
         val response = rest.exchange(builder.toUriString(), HttpMethod.GET, entity, responseType)
@@ -58,10 +49,28 @@ class UtilRest<T> {
         return response.body
     }
 
-    private fun genericHeaders(): HttpHeaders {
+    private fun builderQueryParameter(
+        uri: String,
+        queryMap: Map<String, String>
+    ): UriComponentsBuilder {
+        val builder = UriComponentsBuilder.fromHttpUrl(uri)
+        for ((key, value) in queryMap) {
+            builder.queryParam(key, value)
+        }
+        return builder
+    }
+
+
+    private fun genericHeaders(headersMap: Map<String, String>?): HttpHeaders {
         val headers = HttpHeaders()
         headers.set("Accept", MediaType.ALL_VALUE)
         headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+        if (headersMap != null) {
+            for ((key, value) in headersMap) {
+                headers.set(key, value)
+            }
+        }
+
         return headers
     }
 }

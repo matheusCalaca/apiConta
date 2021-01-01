@@ -1,5 +1,7 @@
 package br.com.matheusCalaca.conta.userAPI.service
 
+import br.com.matheusCalaca.conta.userAPI.model.LoginDto
+import br.com.matheusCalaca.conta.userAPI.model.TokenDto
 import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,8 +14,12 @@ class UserServiceImpl : UserService {
     @Autowired
     lateinit var utilRest: UtilRest<UserDto>
 
+    @Autowired
+    lateinit var tokenService: TokenService
+
     @Value("\${userapi.host}")
     private val host: String? = null
+
 
      override fun verifyHasOwner(ownerIdentification: String): Boolean {
         val user = getUser(ownerIdentification)
@@ -29,7 +35,9 @@ class UserServiceImpl : UserService {
 
         val queryParameter = mapOf("cpf" to ownerIdentification)
 
-        val user = utilRest.get(uri, queryParameter, UserDto::class.java);
+        val headersMap = mapOf("Authorization" to "Bearer ${tokenService.getToken()}")
+
+        val user = utilRest.get(uri, queryParameter, headersMap, UserDto::class.java);
         return user
     }
 }
