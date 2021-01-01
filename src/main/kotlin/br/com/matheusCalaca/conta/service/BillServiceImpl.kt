@@ -3,7 +3,8 @@ package br.com.matheusCalaca.conta.service
 import br.com.matheusCalaca.conta.model.Bill
 import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
-import br.com.matheusCalaca.conta.userAPI.UserDto
+import br.com.matheusCalaca.conta.userAPI.model.UserDto
+import br.com.matheusCalaca.conta.userAPI.service.UserService
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -21,40 +22,19 @@ class BillServiceImpl : BillService {
     lateinit var repository: BillRepository
 
     @Autowired
-    lateinit var utilRest: UtilRest<UserDto>
+    lateinit var userService: UserService
 
     @Autowired
     @Qualifier("paymentService")
     lateinit var servicePayment: PaymentService
 
-    @Value("\${userapi.host}")
-    private val host: String? = null
-
 
     override fun creatBill(bill: Bill): Bill {
-        val hasOwner = verifyHasOwner(bill.ownerIdentification)
+        val hasOwner = userService.verifyHasOwner(bill.ownerIdentification)
         if (hasOwner == false){
             throw java.lang.IllegalArgumentException("Cliente não localizado para registrar a conta")
         }
         return save(bill)
-    }
-
-    private fun verifyHasOwner(ownerIdentification: String): Boolean {
-        val user = getUser(ownerIdentification)
-        println(user)
-        if (user == null){
-            return false
-        }
-        return true
-    }
-
-    private fun getUser(ownerIdentification: String): UserDto? {
-        val uri: String = host + "/user";
-
-        val queryParameter = mapOf("cpf" to ownerIdentification)
-
-        val user = utilRest.get(uri, queryParameter, UserDto::class.java);
-        return user
     }
 
     fun save(bill: Bill): Bill {

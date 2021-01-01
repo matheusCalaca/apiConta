@@ -1,7 +1,7 @@
 package br.com.matheusCalaca.conta.util
 
-import br.com.matheusCalaca.conta.userAPI.LoginDto
-import br.com.matheusCalaca.conta.userAPI.TokenDto
+import br.com.matheusCalaca.conta.userAPI.model.LoginDto
+import br.com.matheusCalaca.conta.userAPI.model.TokenDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
