@@ -1,6 +1,6 @@
 package br.com.matheusCalaca.conta.userAPI
 
-class LoginDTO {
+class LoginDto {
 
     var identify: String = "";
     var password: String = "";

@@ -1,7 +1,7 @@
 package br.com.matheusCalaca.conta.util
 
-import br.com.matheusCalaca.conta.userAPI.LoginDTO
-import br.com.matheusCalaca.conta.userAPI.TokenDTO
+import br.com.matheusCalaca.conta.userAPI.LoginDto
+import br.com.matheusCalaca.conta.userAPI.TokenDto
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -24,7 +24,7 @@ class UtilRest<T> {
     @Value("\${userapi.password}")
     private val senha: String = ""
 
-    fun post(uri: String, body: String, responseType: Class<TokenDTO>): TokenDTO? {
+    fun post(uri: String, body: String, responseType: Class<TokenDto>): TokenDto? {
 
         val headers = genericHeaders()
 
@@ -42,7 +42,7 @@ class UtilRest<T> {
         val headers = genericHeaders()
 
 
-        val tokenDTO = post(uri + "/login", LoginDTO(user, senha).toString(), TokenDTO::class.java)
+        val tokenDTO = post(uri + "/login", LoginDto(user, senha).toString(), TokenDto::class.java)
         headers.set("Authorization", "Bearer ${tokenDTO?.token}")
 
         val builder = UriComponentsBuilder.fromHttpUrl(uri)

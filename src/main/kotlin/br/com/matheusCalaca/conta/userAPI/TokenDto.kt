@@ -1,6 +1,6 @@
 package br.com.matheusCalaca.conta.userAPI
 
-class TokenDTO {
+class TokenDto {
 
     var token: String = "";
 }
