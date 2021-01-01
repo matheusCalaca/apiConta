@@ -2,14 +2,13 @@ package br.com.matheusCalaca.conta.userAPI.service
 
 import br.com.matheusCalaca.conta.userAPI.model.LoginDto
 import br.com.matheusCalaca.conta.userAPI.model.TokenDto
-import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
-class TokenServiceImpl: TokenService {
+class TokenServiceImpl : TokenService {
 
     @Value("\${userapi.user}")
     private val user: String = ""

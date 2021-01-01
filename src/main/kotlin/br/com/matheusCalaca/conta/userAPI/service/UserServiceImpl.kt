@@ -1,7 +1,5 @@
 package br.com.matheusCalaca.conta.userAPI.service
 
-import br.com.matheusCalaca.conta.userAPI.model.LoginDto
-import br.com.matheusCalaca.conta.userAPI.model.TokenDto
 import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,10 +19,10 @@ class UserServiceImpl : UserService {
     private val host: String? = null
 
 
-     override fun verifyHasOwner(ownerIdentification: String): Boolean {
+    override fun verifyHasOwner(ownerIdentification: String): Boolean {
         val user = getUser(ownerIdentification)
         println(user)
-        if (user == null){
+        if (user == null) {
             return false
         }
         return true
