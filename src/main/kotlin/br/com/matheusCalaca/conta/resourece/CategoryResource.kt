@@ -7,33 +7,34 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@RequestMapping("category")
 class CategoryResource {
 
     @Autowired
     lateinit var categoryService: CategoryService
 
-    @PostMapping("/category")
+    @PostMapping
     fun createCategory(@RequestBody category: Category): Category {
         categoryService.save(category)
         return category
     }
 
-    @GetMapping("/category")
+    @GetMapping
     fun getCategory(@RequestParam("name") name: String): Category {
         return categoryService.findCategory(name)
     }
 
-    @GetMapping("/category/all")
+    @GetMapping("/all")
     fun getAllCategory(): Iterable<Category> {
         return categoryService.findAllCategory()
     }
 
-    @PutMapping("/category/{id}")
+    @PutMapping("/{id}")
     fun putCategory(@PathVariable("id") id: Long, @RequestBody dto: CategoryDto): Category {
-        return categoryService.updateCategory(id, dto.name )
+        return categoryService.updateCategory(id, dto.name)
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/{id}")
     fun deleteCategory(@PathVariable("id") id: Long): String {
         categoryService.deleteCategory(id)
         return "Deletado com sucesso!"

@@ -61,7 +61,7 @@ class PaymentServiceImpl : PaymentService {
 
     override fun hasBillPaymentActive(idBill: Long): Boolean {
         val payments: List<Payment> = repository.findPaymentByBill(idBill)
-        if(payments.isNotEmpty()){
+        if (payments.isNotEmpty()) {
             return true
         }
         return false

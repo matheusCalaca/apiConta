@@ -2,7 +2,7 @@ package br.com.matheusCalaca.conta.userAPI.service
 
 import br.com.matheusCalaca.conta.userAPI.model.LoginDto
 import br.com.matheusCalaca.conta.userAPI.model.TokenDto
-import br.com.matheusCalaca.conta.userAPI.model.UserPathEnum
+import br.com.matheusCalaca.conta.userAPI.model.EnumUserPath
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -25,7 +25,7 @@ class TokenServiceImpl : TokenService {
 
 
     override fun getToken(): String? {
-        val uri: String = host + UserPathEnum.USER_LOGIN.path;
+        val uri: String = host + EnumUserPath.USER_LOGINUserPath.path;
 
         val tokenDTO = utilRest.post(uri, LoginDto(user, senha).toString(), TokenDto::class.java)
         return tokenDTO?.token
