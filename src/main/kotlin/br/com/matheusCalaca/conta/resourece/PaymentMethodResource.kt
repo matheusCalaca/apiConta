@@ -4,6 +4,8 @@ import br.com.matheusCalaca.conta.model.PaymentMethod
 import br.com.matheusCalaca.conta.service.PaymentMethodService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,23 +17,26 @@ class PaymentMethodResource {
     lateinit var service: PaymentMethodService
 
     @PostMapping
-    fun postPaymentMethod(@RequestBody paymentMethod: PaymentMethod): PaymentMethod {
-        return service.save(paymentMethod)
+    fun postPaymentMethod(@RequestBody paymentMethod: PaymentMethod): ResponseEntity<PaymentMethod> {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(paymentMethod))
     }
 
     @PutMapping("/{id}")
-    fun putPaymentMethod(@PathVariable("id") id: Long, @RequestBody paymentMethod: PaymentMethod): PaymentMethod {
-        return service.update(id, paymentMethod)
+    fun putPaymentMethod(
+        @PathVariable("id") id: Long,
+        @RequestBody paymentMethod: PaymentMethod
+    ): ResponseEntity<PaymentMethod> {
+        return ResponseEntity.ok(service.update(id, paymentMethod))
     }
 
     @GetMapping("/all")
-    fun getPaymentMethod(): Iterable<PaymentMethod> {
-        return service.findAll()
+    fun getPaymentMethod(): ResponseEntity<Iterable<PaymentMethod>> {
+        return ResponseEntity.ok(service.findAll())
     }
 
     @DeleteMapping("/{id}")
-    fun putPaymentMethod(@PathVariable("id") id: Long): String {
+    fun putPaymentMethod(@PathVariable("id") id: Long): ResponseEntity<String> {
         service.delete(id)
-        return "Deletado com sucesso"
+        return ResponseEntity.ok("Deletado com sucesso")
     }
 }

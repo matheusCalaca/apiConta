@@ -4,6 +4,8 @@ import br.com.matheusCalaca.conta.model.Bill
 import br.com.matheusCalaca.conta.service.BillService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -15,24 +17,26 @@ class BillResource {
     lateinit var service: BillService
 
     @PostMapping
-    fun postBill(@RequestBody bill: Bill): Bill {
-        return service.creatBill(bill)
+    fun postBill(@RequestBody bill: Bill): ResponseEntity<Bill> {
+        val creatBill = service.creatBill(bill)
+        return ResponseEntity.status(HttpStatus.CREATED).body(creatBill)
     }
 
     @GetMapping
-    fun getBill(@RequestParam("page") page: Long, @RequestParam("size") size: Long): List<Bill> {
-        return service.getBills(page, size)
+    fun getBill(@RequestParam("page") page: Long, @RequestParam("size") size: Long): ResponseEntity<List<Bill>> {
+        return ResponseEntity.ok(service.getBills(page, size))
     }
 
     @PutMapping("/{id}")
-    fun putBill(@PathVariable("id") id: Long, @RequestBody bill: Bill): Bill {
-        return service.update(id, bill)
+    fun putBill(@PathVariable("id") id: Long, @RequestBody bill: Bill): ResponseEntity<Bill> {
+        val update = service.update(id, bill)
+        return ResponseEntity.ok(update)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteBill(@PathVariable("id") id: Long): String {
+    fun deleteBill(@PathVariable("id") id: Long): ResponseEntity<String> {
         service.delete(id)
-        return "Deletado com sucesso!"
+        return ResponseEntity.ok("Deletado com sucesso!")
     }
 
 }
