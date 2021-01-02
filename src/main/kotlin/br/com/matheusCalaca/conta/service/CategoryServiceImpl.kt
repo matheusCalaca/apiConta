@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 class CategoryServiceImpl : CategoryService {
 
     @Autowired
+    @Qualifier("billService")
     lateinit var servicesBill: BillService
 
 
@@ -25,21 +26,21 @@ class CategoryServiceImpl : CategoryService {
     }
 
     override fun findCategory(name: String): Category {
-        return repository.findByName(name);
+        return repository.findByName(name)
     }
 
     fun findCategoryByID(id: Long): Category {
-        return repository.findById(id).get();
+        return repository.findById(id).get()
     }
 
     override fun findAllCategory(): Iterable<Category> {
-        return repository.findAll();
+        return repository.findAll()
     }
 
     override fun updateCategory(id: Long, name: String): Category {
-        val category = findCategoryByID(id);
-        category.name = name;
-        return repository.save(category);
+        val category = findCategoryByID(id)
+        category.name = name
+        return repository.save(category)
     }
 
     override fun deleteCategory(id: Long) {

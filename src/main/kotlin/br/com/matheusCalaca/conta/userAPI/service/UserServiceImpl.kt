@@ -1,7 +1,7 @@
 package br.com.matheusCalaca.conta.userAPI.service
 
-import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.userAPI.model.EnumUserPath
+import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.util.UtilRest
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -30,13 +30,13 @@ class UserServiceImpl : UserService {
     }
 
     private fun getUser(ownerIdentification: String): UserDto? {
-        val uri: String = host + EnumUserPath.USERUserPath.path;
+        val uri: String = host + EnumUserPath.USERUserPath.path
 
         val queryParameter = mapOf("cpf" to ownerIdentification)
 
         val headersMap = mapOf("Authorization" to "Bearer ${tokenService.getToken()}")
 
-        val user = utilRest.get(uri, queryParameter, headersMap, UserDto::class.java);
+        val user = utilRest.get(uri, queryParameter, headersMap, UserDto::class.java)
         return user
     }
 }

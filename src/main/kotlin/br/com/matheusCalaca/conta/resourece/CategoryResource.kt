@@ -1,7 +1,7 @@
 package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.Category
-import br.com.matheusCalaca.conta.model.DTO.CategoryDto
+import br.com.matheusCalaca.conta.model.dto.CategoryDto
 import br.com.matheusCalaca.conta.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus

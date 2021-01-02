@@ -1,4 +1,4 @@
-package br.com.matheusCalaca.conta.model.DTO
+package br.com.matheusCalaca.conta.model.dto
 
 class HasClientDto {
     lateinit var identify: String

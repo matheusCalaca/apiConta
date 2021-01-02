@@ -15,7 +15,6 @@ class PaymentServiceImpl : PaymentService {
     @Autowired
     lateinit var repository: PaymentRepository
 
-
     @Autowired
     @Qualifier("billService")
     lateinit var serviceBill: BillService
