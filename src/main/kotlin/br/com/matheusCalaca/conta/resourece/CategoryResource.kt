@@ -1,15 +1,20 @@
 package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.Category
-import br.com.matheusCalaca.conta.model.dto.CategoryDto
+import br.com.matheusCalaca.conta.model.DTO.CategoryDto
 import br.com.matheusCalaca.conta.service.CategoryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("category")
+@RequestMapping(
+    "category",
+    consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE],
+    produces = [MediaType.APPLICATION_JSON_VALUE]
+)
 class CategoryResource {
 
     @Autowired
@@ -26,6 +31,7 @@ class CategoryResource {
         return ResponseEntity.ok(categoryService.findCategory(name))
     }
 
+    @CrossOrigin
     @GetMapping("/all")
     fun getAllCategory(): ResponseEntity<Iterable<Category>> {
         return ResponseEntity.ok(categoryService.findAllCategory())

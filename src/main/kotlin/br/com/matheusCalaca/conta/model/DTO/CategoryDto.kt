@@ -1,4 +1,4 @@
-package br.com.matheusCalaca.conta.model.dto
+package br.com.matheusCalaca.conta.model.DTO
 
 class CategoryDto {
 
