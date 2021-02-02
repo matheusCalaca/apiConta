@@ -1,6 +1,7 @@
 package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.Bill
+import br.com.matheusCalaca.conta.model.DTO.ConfTableDto
 import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
 import br.com.matheusCalaca.conta.userAPI.service.UserService
@@ -81,6 +82,11 @@ class BillServiceImpl : BillService {
     override fun changeSatusBill(id: Long, billStatus: EnumBillStatus): Bill {
         val bill = setNewStatusBill(id, billStatus)
         return update(id, bill)
+    }
+
+    override fun getBillsConf(): ConfTableDto {
+        val qt = repository.count()
+        return  ConfTableDto(qt)
     }
 
 

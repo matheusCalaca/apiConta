@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@CrossOrigin
 @RequestMapping(
     "category",
     consumes = [MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE],
@@ -31,7 +32,6 @@ class CategoryResource {
         return ResponseEntity.ok(categoryService.findCategory(name))
     }
 
-    @CrossOrigin
     @GetMapping("/all")
     fun getAllCategory(): ResponseEntity<Iterable<Category>> {
         return ResponseEntity.ok(categoryService.findAllCategory())
