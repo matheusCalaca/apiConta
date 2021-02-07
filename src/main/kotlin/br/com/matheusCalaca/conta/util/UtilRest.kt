@@ -30,7 +30,7 @@ class UtilRest<T> {
         return response.body
     }
 
-    fun get(uri: String, queryMap: Map<String, String>, headersMap: Map<String, String>, responseType: Class<T>): T? {
+    fun get(uri: String, queryMap: Map<String, String>?, headersMap: Map<String, String>, responseType: Class<T>): T? {
         val headers = genericHeaders(headersMap)
 
         val entity = HttpEntity<String>(headers)
@@ -42,7 +42,7 @@ class UtilRest<T> {
 
     private fun get(
         uri: String,
-        queryMap: Map<String, String>,
+        queryMap: Map<String, String>?,
         entity: HttpEntity<String>,
         responseType: Class<T>
     ): T? {
@@ -57,11 +57,13 @@ class UtilRest<T> {
 
     private fun builderQueryParameter(
         uri: String,
-        queryMap: Map<String, String>
+        queryMap: Map<String, String>?
     ): UriComponentsBuilder {
         val builder = UriComponentsBuilder.fromHttpUrl(uri)
-        for ((key, value) in queryMap) {
-            builder.queryParam(key, value)
+        if(queryMap != null) {
+            for ((key, value) in queryMap) {
+                builder.queryParam(key, value)
+            }
         }
         return builder
     }

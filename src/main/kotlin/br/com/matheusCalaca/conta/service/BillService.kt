@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 @Component
 interface BillService {
 
-    fun creatBill(bill: Bill): Bill
+    fun creatBill(token: String, bill: Bill): Bill
 
     fun update(id: Long, bill: Bill): Bill
 

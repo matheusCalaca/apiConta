@@ -1,7 +1,6 @@
 package br.com.matheusCalaca.conta.model
 
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
 
 @Entity
 data class Category(
@@ -10,6 +9,5 @@ data class Category(
     val id: Long,
 
     @Column(unique = true)
-    @get: NotBlank
-    var name: String
+    var name: String?
 )

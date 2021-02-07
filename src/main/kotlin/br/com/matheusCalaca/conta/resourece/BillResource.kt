@@ -1,8 +1,11 @@
 package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.Bill
+import br.com.matheusCalaca.conta.model.DTO.BillDto
 import br.com.matheusCalaca.conta.model.DTO.ConfTableDto
+import br.com.matheusCalaca.conta.model.mapper.MapperBill
 import br.com.matheusCalaca.conta.service.BillService
+import org.mapstruct.factory.Mappers
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
@@ -19,8 +22,12 @@ class BillResource {
     lateinit var service: BillService
 
     @PostMapping
-    fun postBill(@RequestBody bill: Bill): ResponseEntity<Bill> {
-        val creatBill = service.creatBill(bill)
+    fun postBill(@RequestHeader("Authorization") token: String, @RequestBody billDto: BillDto): ResponseEntity<Bill> {
+
+        val converter = Mappers.getMapper(MapperBill::class.java)
+        val bill = converter.convertToModel(billDto)
+
+        val creatBill = service.creatBill(token, bill)
         return ResponseEntity.status(HttpStatus.CREATED).body(creatBill)
     }
 

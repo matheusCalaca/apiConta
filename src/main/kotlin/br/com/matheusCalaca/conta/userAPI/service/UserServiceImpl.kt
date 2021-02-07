@@ -1,5 +1,6 @@
 package br.com.matheusCalaca.conta.userAPI.service
 
+import br.com.matheusCalaca.conta.userAPI.model.CPFResponseDto
 import br.com.matheusCalaca.conta.userAPI.model.EnumUserPath
 import br.com.matheusCalaca.conta.userAPI.model.UserDto
 import br.com.matheusCalaca.conta.util.UtilRest
@@ -12,6 +13,9 @@ class UserServiceImpl : UserService {
 
     @Autowired
     lateinit var utilRest: UtilRest<UserDto>
+
+    @Autowired
+    lateinit var utilRestCPF: UtilRest<CPFResponseDto>
 
     @Autowired
     lateinit var tokenService: TokenService
@@ -38,5 +42,14 @@ class UserServiceImpl : UserService {
 
         val user = utilRest.get(uri, queryParameter, headersMap, UserDto::class.java)
         return user
+    }
+
+    override fun getUserCpf(token: String): CPFResponseDto? {
+        val uri: String = host + EnumUserPath.USER_CPF_TOKEN.path
+
+        val headersMap = mapOf("Authorization" to "Bearer $token")
+
+        val cpfResponseDto = utilRestCPF.get(uri, null, headersMap, CPFResponseDto::class.java)
+        return cpfResponseDto
     }
 }

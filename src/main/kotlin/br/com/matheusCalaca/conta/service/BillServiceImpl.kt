@@ -27,7 +27,10 @@ class BillServiceImpl : BillService {
     lateinit var servicePayment: PaymentService
 
 
-    override fun creatBill(bill: Bill): Bill {
+    override fun creatBill(token: String, bill: Bill): Bill {
+        val cpfResponseDto = userService.getUserCpf(token)
+        bill.ownerIdentification = cpfResponseDto?.cpf!!
+        bill.status = EnumBillStatus.OPEN
         val hasOwner = userService.verifyHasOwner(bill.ownerIdentification)
         if (hasOwner == false) {
             throw java.lang.IllegalArgumentException("Cliente não localizado para registrar a conta")
@@ -86,7 +89,7 @@ class BillServiceImpl : BillService {
 
     override fun getBillsConf(): ConfTableDto {
         val qt = repository.count()
-        return  ConfTableDto(qt)
+        return ConfTableDto(qt)
     }
 
 
