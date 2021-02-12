@@ -20,6 +20,7 @@ class PaymentServiceImpl : PaymentService {
     lateinit var serviceBill: BillService
 
     override fun save(payment: Payment): Payment {
+        payment.status = true
 
         valid(payment)
 

@@ -8,8 +8,8 @@ data class PaymentMethod(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long,
     @Column(name = "institution_name")
-    var institutionName: String,
+    var institutionName: String?,
     @Column(name = "payment_method")
-    var paymentMethod: String
+    var paymentMethod: String?
 )
 
