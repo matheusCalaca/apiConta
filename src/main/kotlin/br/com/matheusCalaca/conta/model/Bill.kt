@@ -8,22 +8,22 @@ import javax.persistence.*
 @Entity(name = "bill")
 data class Bill(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        var id: Long,
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long,
 
-        var ownerIdentification: String,
+    var ownerIdentification: String,
 
-        var maturityDate: Date,
+    var maturityDate: Date,
 
-        var price: BigDecimal,
+    var price: BigDecimal,
 
-        var description: String,
+    var description: String,
 
-        var status: EnumBillStatus,
+    var status: EnumBillStatus,
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "bill_category")
-        var category: Category
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_category")
+    var category: Category
 
 )

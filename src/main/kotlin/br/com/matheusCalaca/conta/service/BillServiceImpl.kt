@@ -1,16 +1,14 @@
 package br.com.matheusCalaca.conta.service
 
 import br.com.matheusCalaca.conta.model.Bill
-import br.com.matheusCalaca.conta.model.DTO.HasClientDto
+import br.com.matheusCalaca.conta.model.DTO.ConfTableDto
 import br.com.matheusCalaca.conta.model.enum.EnumBillStatus
 import br.com.matheusCalaca.conta.repository.BillRepository
-import br.com.matheusCalaca.conta.util.UtilRest
+import br.com.matheusCalaca.conta.userAPI.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 
 @Service
@@ -22,28 +20,22 @@ class BillServiceImpl : BillService {
     lateinit var repository: BillRepository
 
     @Autowired
-    lateinit var utilRest: UtilRest<String>
+    lateinit var userService: UserService
 
     @Autowired
     @Qualifier("paymentService")
     lateinit var servicePayment: PaymentService
 
-    @Value("\${kafka.host}")
-    private val host: String? = null
 
-
-    override fun creatBill(bill: Bill): Bill {
-        postVerifyOwnerExist(bill.ownerIdentification)
+    override fun creatBill(token: String, bill: Bill): Bill {
+        val cpfResponseDto = userService.getUserCpf(token)
+        bill.ownerIdentification = cpfResponseDto?.cpf!!
+        bill.status = EnumBillStatus.OPEN
+        val hasOwner = userService.verifyHasOwner(bill.ownerIdentification)
+        if (hasOwner == false) {
+            throw java.lang.IllegalArgumentException("Cliente não localizado para registrar a conta")
+        }
         return save(bill)
-    }
-
-    private fun postVerifyOwnerExist(ownerIdentification: String) {
-        val topic = "has-client"
-        val uri: String = host + "/producer/" + topic;
-        val clientDto = HasClientDto(ownerIdentification)
-
-        val teste = utilRest.post(uri, clientDto.toString(), String::class.java);
-        println(teste)
     }
 
     fun save(bill: Bill): Bill {
@@ -93,6 +85,11 @@ class BillServiceImpl : BillService {
     override fun changeSatusBill(id: Long, billStatus: EnumBillStatus): Bill {
         val bill = setNewStatusBill(id, billStatus)
         return update(id, bill)
+    }
+
+    override fun getBillsConf(): ConfTableDto {
+        val qt = repository.count()
+        return ConfTableDto(qt)
     }
 
 

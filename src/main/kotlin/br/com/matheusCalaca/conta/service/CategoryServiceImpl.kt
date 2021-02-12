@@ -3,15 +3,17 @@ package br.com.matheusCalaca.conta.service
 import br.com.matheusCalaca.conta.model.Category
 import br.com.matheusCalaca.conta.repository.CategoryRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 
 @Service
-class CategoryServiceImpl : CategoryService{
+@Qualifier("categoryService")
+class CategoryServiceImpl : CategoryService {
 
     @Autowired
+    @Qualifier("billService")
     lateinit var servicesBill: BillService
 
 
@@ -24,28 +26,29 @@ class CategoryServiceImpl : CategoryService{
     }
 
     override fun findCategory(name: String): Category {
-        return repository.findByName(name);
+        return repository.findByName(name)
     }
+
     fun findCategoryByID(id: Long): Category {
-        return repository.findById(id).get();
+        return repository.findById(id).get()
     }
 
     override fun findAllCategory(): Iterable<Category> {
-        return repository.findAll();
+        return repository.findAll()
     }
 
     override fun updateCategory(id: Long, name: String): Category {
-        val category = findCategoryByID(id);
-        category.name =  name;
-        return repository.save(category);
+        val category = findCategoryByID(id)
+        category.name = name
+        return repository.save(category)
     }
 
-    override fun deleteCategory(id: Long){
+    override fun deleteCategory(id: Long) {
         // TODO: verificar se existe oagamento em conta
         val hasCategoryInBill: Boolean = servicesBill.hasCategoryByBill(id)
-        if(hasCategoryInBill) {
+        if (hasCategoryInBill) {
             throw  IllegalArgumentException("categoria não pode ser excluido")
-        }else{
+        } else {
             repository.deleteById(id)
         }
     }

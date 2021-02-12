@@ -15,12 +15,12 @@ class PaymentServiceImpl : PaymentService {
     @Autowired
     lateinit var repository: PaymentRepository
 
-
     @Autowired
     @Qualifier("billService")
     lateinit var serviceBill: BillService
 
     override fun save(payment: Payment): Payment {
+        payment.status = true
 
         valid(payment)
 
@@ -61,7 +61,7 @@ class PaymentServiceImpl : PaymentService {
 
     override fun hasBillPaymentActive(idBill: Long): Boolean {
         val payments: List<Payment> = repository.findPaymentByBill(idBill)
-        if(payments.isNotEmpty()){
+        if (payments.isNotEmpty()) {
             return true
         }
         return false

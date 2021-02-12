@@ -2,35 +2,42 @@ package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.PaymentMethod
 import br.com.matheusCalaca.conta.service.PaymentMethodService
-import org.apache.juli.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import javax.websocket.server.PathParam
 
 @RestController
+@CrossOrigin
+@RequestMapping("paymentMethod")
 class PaymentMethodResource {
 
     @Autowired
+    @Qualifier("paymentMethodService")
     lateinit var service: PaymentMethodService
 
-    @PostMapping("/paymentMethod")
-    fun postPaymentMethod(@RequestBody paymentMethod: PaymentMethod): PaymentMethod {
-        return service.save(paymentMethod)
+    @PostMapping
+    fun postPaymentMethod(@RequestBody paymentMethod: PaymentMethod): ResponseEntity<PaymentMethod> {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(paymentMethod))
     }
 
-    @PutMapping("/paymentMethod/{id}")
-    fun putPaymentMethod(@PathVariable("id") id: Long, @RequestBody paymentMethod: PaymentMethod): PaymentMethod {
-        return service.update(id, paymentMethod)
+    @PutMapping("/{id}")
+    fun putPaymentMethod(
+        @PathVariable("id") id: Long,
+        @RequestBody paymentMethod: PaymentMethod
+    ): ResponseEntity<PaymentMethod> {
+        return ResponseEntity.ok(service.update(id, paymentMethod))
     }
 
-    @GetMapping("/paymentMethod/all")
-    fun getPaymentMethod(): Iterable<PaymentMethod> {
-        return service.findAll()
+    @GetMapping("/all")
+    fun getPaymentMethod(): ResponseEntity<Iterable<PaymentMethod>> {
+        return ResponseEntity.ok(service.findAll())
     }
 
-    @DeleteMapping("/paymentMethod/{id}")
-    fun putPaymentMethod(@PathVariable("id") id: Long): String {
+    @DeleteMapping("/{id}")
+    fun putPaymentMethod(@PathVariable("id") id: Long): ResponseEntity<String> {
         service.delete(id)
-        return "Deletado com sucesso"
+        return ResponseEntity.ok("Deletado com sucesso")
     }
 }

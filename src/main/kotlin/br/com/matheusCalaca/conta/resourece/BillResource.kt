@@ -1,36 +1,56 @@
 package br.com.matheusCalaca.conta.resourece
 
 import br.com.matheusCalaca.conta.model.Bill
+import br.com.matheusCalaca.conta.model.DTO.BillDto
+import br.com.matheusCalaca.conta.model.DTO.ConfTableDto
+import br.com.matheusCalaca.conta.model.mapper.MapperBill
 import br.com.matheusCalaca.conta.service.BillService
+import org.mapstruct.factory.Mappers
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
+@CrossOrigin
+@RequestMapping("bill")
 class BillResource {
 
-
     @Autowired
+    @Qualifier("billService")
     lateinit var service: BillService
 
-    @PostMapping("/bill")
-    fun postBill(@RequestBody bill: Bill): Bill {
-        return service.creatBill(bill)
+    @PostMapping
+    fun postBill(@RequestHeader("Authorization") token: String, @RequestBody billDto: BillDto): ResponseEntity<Bill> {
+
+        val converter = Mappers.getMapper(MapperBill::class.java)
+        val bill = converter.convertToModel(billDto)
+
+        val creatBill = service.creatBill(token, bill)
+        return ResponseEntity.status(HttpStatus.CREATED).body(creatBill)
     }
 
-    @GetMapping("/bill")
-    fun getBill(@RequestParam("page") page: Long, @RequestParam("size") size: Long): List<Bill> {
-        return service.getBills(page, size)
+    @GetMapping
+    fun getBill(@RequestParam("page") page: Long, @RequestParam("size") size: Long): ResponseEntity<List<Bill>> {
+        return ResponseEntity.ok(service.getBills(page, size))
     }
 
-    @PutMapping("/bill/{id}")
-    fun putBill(@PathVariable("id") id: Long, @RequestBody bill: Bill): Bill {
-        return service.update(id, bill)
+    @GetMapping("/confTable")
+    fun getBillConf(): ResponseEntity<ConfTableDto> {
+        return ResponseEntity.ok(service.getBillsConf())
     }
 
-    @DeleteMapping("/bill/{id}")
-    fun deleteBill(@PathVariable("id") id: Long): String {
+    @PutMapping("/{id}")
+    fun putBill(@PathVariable("id") id: Long, @RequestBody bill: Bill): ResponseEntity<Bill> {
+        val update = service.update(id, bill)
+        return ResponseEntity.ok(update)
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteBill(@PathVariable("id") id: Long): ResponseEntity<String> {
         service.delete(id)
-        return "Deletado com sucesso!"
+        return ResponseEntity.ok("Deletado com sucesso!")
     }
 
 }
