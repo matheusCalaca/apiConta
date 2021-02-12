@@ -62,8 +62,9 @@ class BillServiceImpl : BillService {
         repository.deleteById(id)
     }
 
-    override fun getBills(page: Long, size: Long): List<Bill> {
-        return repository.getBills(page, size)
+    override fun getBills(token: String, page: Long, size: Long): List<Bill> {
+        val cpfResponseDto = userService.getUserCpf(token)
+        return repository.getBills(page, size, cpfResponseDto?.cpf!!)
     }
 
     override fun hasCategoryByBill(idCategory: Long): Boolean {
@@ -87,8 +88,9 @@ class BillServiceImpl : BillService {
         return update(id, bill)
     }
 
-    override fun getBillsConf(): ConfTableDto {
-        val qt = repository.count()
+    override fun getBillsConf(token: String): ConfTableDto {
+        val cpfResponseDto = userService.getUserCpf(token)
+        val qt = repository.countToken(cpfResponseDto?.cpf!!)
         return ConfTableDto(qt)
     }
 
