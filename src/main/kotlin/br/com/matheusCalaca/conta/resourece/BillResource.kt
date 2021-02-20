@@ -32,13 +32,23 @@ class BillResource {
     }
 
     @GetMapping
-    fun getBill(@RequestHeader("Authorization") token: String, @RequestParam("page") page: Long, @RequestParam("size") size: Long): ResponseEntity<List<Bill>> {
-        return ResponseEntity.ok(service.getBills(token, page, size))
+    fun getBill(
+        @RequestHeader("Authorization") token: String,
+        @RequestParam("page") page: Long,
+        @RequestParam("size") size: Long,
+        @RequestParam("year", required = false) year: String?,
+        @RequestParam("month", required = false) month: String?
+    ): ResponseEntity<List<Bill>> {
+        return ResponseEntity.ok(service.getBills(token, page, size, year, month))
     }
 
     @GetMapping("/confTable")
-    fun getBillConf(@RequestHeader("Authorization") token: String): ResponseEntity<ConfTableDto> {
-        return ResponseEntity.ok(service.getBillsConf(token))
+    fun getBillConf(
+        @RequestHeader("Authorization") token: String,
+        @RequestParam("year", required = false) year: String?,
+        @RequestParam("month", required = false) month: String?
+    ): ResponseEntity<ConfTableDto> {
+        return ResponseEntity.ok(service.getBillsConf(token, year, month))
     }
 
     @PutMapping("/{id}")

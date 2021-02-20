@@ -14,7 +14,7 @@ interface BillService {
 
     fun delete(id: Long)
 
-    fun getBills(token: String, page: Long, size: Long): List<Bill>
+    fun getBills(token: String, page: Long, size: Long, year: String?, month: String?): List<Bill>
 
     fun hasCategoryByBill(idCategory: Long): Boolean
 
@@ -22,5 +22,5 @@ interface BillService {
 
     fun changeSatusBill(id: Long, billStatus: EnumBillStatus): Bill
 
-    fun getBillsConf(token: String): ConfTableDto
+    fun getBillsConf(token: String, year: String?, month: String?): ConfTableDto
 }

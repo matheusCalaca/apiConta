@@ -62,8 +62,17 @@ class BillServiceImpl : BillService {
         repository.deleteById(id)
     }
 
-    override fun getBills(token: String, page: Long, size: Long): List<Bill> {
+    override fun getBills(token: String, page: Long, size: Long, year: String?, month: String?): List<Bill> {
         val cpfResponseDto = userService.getUserCpf(token)
+
+        if(year != null && month != null ){
+            return repository.getBills(page, size, cpfResponseDto?.cpf!!, year, month)
+
+        }
+        if(year != null && month == null ){
+            return repository.getBills(page, size, cpfResponseDto?.cpf!!, year)
+
+        }
         return repository.getBills(page, size, cpfResponseDto?.cpf!!)
     }
 
@@ -88,9 +97,19 @@ class BillServiceImpl : BillService {
         return update(id, bill)
     }
 
-    override fun getBillsConf(token: String): ConfTableDto {
+    override fun getBillsConf(token: String, year: String?, month: String?): ConfTableDto {
         val cpfResponseDto = userService.getUserCpf(token)
-        val qt = repository.countToken(cpfResponseDto?.cpf!!)
+        var qt = 0L
+
+        qt = if(year != null && month != null ){
+            repository.countToken(cpfResponseDto?.cpf!!, year, month)
+        }else if(year != null && month == null ){
+            repository.countToken(cpfResponseDto?.cpf!!, year)
+        }else{
+            repository.countToken(cpfResponseDto?.cpf!!)
+        }
+
+
         return ConfTableDto(qt)
     }
 
