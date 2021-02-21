@@ -17,6 +17,8 @@ interface MapperPayment {
         Mapping(source = "description", target = "description"),
         Mapping(source = "billId", target = "bill.id"),
         Mapping(source = "paymentMethodID", target = "paymentMethod.id"),
+        Mapping(target = "id", ignore = true),
+        Mapping(target = "status", ignore = true),
     )
     fun convertToModel(paymentDto: PaymentDto): Payment
 

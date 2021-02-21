@@ -99,9 +99,8 @@ class BillServiceImpl : BillService {
 
     override fun getBillsConf(token: String, year: String?, month: String?): ConfTableDto {
         val cpfResponseDto = userService.getUserCpf(token)
-        var qt = 0L
 
-        qt = if(year != null && month != null ){
+        val qt = if(year != null && month != null ){
             repository.countToken(cpfResponseDto?.cpf!!, year, month)
         }else if(year != null && month == null ){
             repository.countToken(cpfResponseDto?.cpf!!, year)

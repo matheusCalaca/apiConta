@@ -14,6 +14,8 @@ interface MapperBill {
         Mapping(source = "price", target = "price"),
         Mapping(source = "description", target = "description"),
         Mapping(source = "categoryId", target = "category.id"),
+        Mapping(target = "id", ignore = true),
+        Mapping(target = "ownerIdentification", ignore = true),
     )
     fun convertToModel(billDto: BillDto): Bill
 
